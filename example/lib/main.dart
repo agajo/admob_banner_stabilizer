@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:firebase_admob/firebase_admob.dart';
@@ -12,7 +14,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FirebaseAdMob.instance.initialize(
-        appId: appId); // TODO: write test app id for Android and iOS
+        appId: Platform.isAndroid
+            ? 'ca-app-pub-3940256099942544~3347511713'
+            : 'ca-app-pub-3940256099942544~1458002511');
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(),
