@@ -175,10 +175,10 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> {
 }
 
 // Navigatorを使用する場合はこちらを使用してください。
-class AdmobBannerWidgetWithRoute extends StatefulWidget {
+class AdMobBannerWidgetWithRoute extends StatefulWidget {
   // SingleBannerのモックを受け取ればそれを使い、受け取らなければ勝手にSingleBannerを生成します。
   // 本番では何も渡さなくてよい。
-  AdmobBannerWidgetWithRoute({SingleBanner singleBanner, String bannerId})
+  AdMobBannerWidgetWithRoute({SingleBanner singleBanner, String bannerId})
       : _singleBanner = singleBanner ?? SingleBanner() {
     _singleBanner.bannerId = bannerId;
   }
@@ -188,7 +188,7 @@ class AdmobBannerWidgetWithRoute extends StatefulWidget {
       _AdMobBannerWidgetWithRouteState();
 }
 
-class _AdMobBannerWidgetWithRouteState extends State<AdmobBannerWidgetWithRoute>
+class _AdMobBannerWidgetWithRouteState extends State<AdMobBannerWidgetWithRoute>
     with RouteAware {
   final _AdMobBannerWidgetState _adMobBannerWidgetState =
       _AdMobBannerWidgetState();
