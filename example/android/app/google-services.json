@@ -1,0 +1,136 @@
+{
+  "project_info": {
+    "project_number": "300830567303",
+    "firebase_url": "https://fir-demo-project.firebaseio.com",
+    "project_id": "fir-demo-project",
+    "storage_bucket": "fir-demo-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300830567303:android:9b9ba2ce17104d0c",
+        "android_client_info": {
+          "package_name": "com.labpixies.flood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "300830567303-39j253bm66h5m7di7smurthlc07s2btm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.labpixies.flood",
+            "certificate_hash": "709bfcb3f7b5e0ba6742c30c9d2ee334072598d5"
+          }
+        },
+        {
+          "client_id": "300830567303-kuq7unu52cngmd7qif6hsn39ddam86j6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.labpixies.flood",
+            "certificate_hash": "253b787d0e397a3c324a4cb2840b64ce5ae95405"
+          }
+        },
+        {
+          "client_id": "300830567303-1i5fo70r8rc8499b4uih06t3uqp1no7o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvm4M_XnIl1B8i184-uJYc4qnMmifE_VQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "300830567303-1i5fo70r8rc8499b4uih06t3uqp1no7o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "300830567303-en14pgt2nlf7icckmpm3jh2d7u0kcdpq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.test.ios"
+              }
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-8123415297019784~2664022459"
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300830567303:android:7e4b1aa6fe6722dc530122",
+        "android_client_info": {
+          "package_name": "com.test.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "300830567303-1i5fo70r8rc8499b4uih06t3uqp1no7o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvm4M_XnIl1B8i184-uJYc4qnMmifE_VQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "300830567303-1i5fo70r8rc8499b4uih06t3uqp1no7o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "300830567303-en14pgt2nlf7icckmpm3jh2d7u0kcdpq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.test.ios"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300830567303:android:1eef7336c819f7e0530122",
+        "android_client_info": {
+          "package_name": "com.test.ios"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "300830567303-1i5fo70r8rc8499b4uih06t3uqp1no7o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvm4M_XnIl1B8i184-uJYc4qnMmifE_VQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "300830567303-1i5fo70r8rc8499b4uih06t3uqp1no7o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "300830567303-en14pgt2nlf7icckmpm3jh2d7u0kcdpq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.test.ios"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
