@@ -11,3 +11,12 @@ void main() {
     expect(() => calculator.addOne(null), throwsNoSuchMethodError);
   });
 }
+
+// テストする項目
+// _SingleBanner
+// // BannerAdをdisposeしたら、必ず、次をセットするかnullにする。
+// 最後に広告を生成したインスタンスが所有権を持ち、そこからしかdisposeできない。
+// 別のインスタンスが新たに広告生成を行った場合、所有権を失う。
+// Navigator(またはRouteObserver)があっても正常に動く
+// 同なくても正常に動く
+// RouteObserverを与えずにNavigatorと一緒に使った場合に、わかりやすいエラーメッセージを出す

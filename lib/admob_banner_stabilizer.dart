@@ -59,6 +59,7 @@ class _SingleBanner {
 
 // Navigatorを使わない場合はこちらを使ってください
 class AdMobBannerWidget extends StatefulWidget {
+  // TODO: 多分この必要はないと思う
   // Stateを外から挿入できるようにしておきます。挿入されなければ、普通にここで新しく作る。
   // Route使うバージョンの方で、外からこのStateにアクセスできるようにするため。
   const AdMobBannerWidget({_AdMobBannerWidgetState admobBannerWidgetState})
@@ -70,7 +71,7 @@ class AdMobBannerWidget extends StatefulWidget {
       _admobBannerWidgetState ?? _AdMobBannerWidgetState();
 }
 
-class _AdMobBannerWidgetState extends State<AdMobBannerWidget> {
+class _AdMobBannerWidgetState extends State<AdMobBannerWidget> with RouteAware {
   Timer _timer;
   double _bannerHeight;
   AdSize _adSize;
@@ -83,6 +84,7 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> {
     _timer?.cancel();
     // Widgetのレンダリングが完了してなければ位置がわからないので、広告を表示しません。
     // レンダリングが完了するまでタイマーで繰り返します。
+    // TODO: addPostFrameCallbackでイケルと思う！！
     _timer = Timer.periodic(Duration(seconds: 1), (Timer _thisTimer) async {
       final RenderBox _renderBox = context.findRenderObject();
       final bool _isRendered = _renderBox.hasSize;
@@ -91,6 +93,7 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> {
           isMounted: mounted,
           anchorOffset: _anchorOffset(),
           // TODO: 各自の広告IDに変更する必要があります。
+          // TODO: Widget使用時に与えられるように。当然。
           adUnitId: BannerAd.testAdUnitId,
           callerHashCode: hashCode,
           size: _adSize,
@@ -136,7 +139,7 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> {
     final double _y = _renderBox.localToGlobal(Offset.zero).dy;
     final double _h = _renderBox.size.height;
     // viewPaddingだけ何故かMediaQueryで取得すると0だったので、windowから直接取得
-    // 物理ピクセルが返るのでdevicePicelRatioで割って論理ピクセルに直す
+    // 物理ピクセルが返るのでdevicePixelRatioで割って論理ピクセルに直す
     final double _vpb = WidgetsBinding.instance.window.viewPadding.bottom /
         MediaQuery.of(context).devicePixelRatio;
     final double _screenHeight = MediaQuery.of(context).size.height;
@@ -147,6 +150,7 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> {
   Widget build(BuildContext context) {
     // 広告のスペースを確保するためのContainer。
     // TODO: 背景色を変えるなりSizedBoxにするなり、アプリに合わせて変更してください。
+    // TODO: 背景色を外から渡せるように。
     return Container(height: _bannerHeight, color: Colors.yellow);
   }
 
@@ -156,6 +160,11 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> {
     // MediaQueryの変化を受けて呼ばれる。pushやpop、本体の回転でも呼ばれる。
     // 変更を検知したらまず即座に広告を消す。
     disposeBanner();
+    // Observerが一つじゃない場合、firstでいいのかどうか判断・変更する必要アリ
+    if (Navigator.of(context).widget.observers.isNotEmpty) {
+      _routeObserver = Navigator.of(context).widget.observers.first;
+      _routeObserver.subscribe(this, ModalRoute.of(context));
+    }
     if (isTop) {
       _determineBannerSize();
       _loadAndShowBanner();
@@ -165,6 +174,7 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> {
   @override
   void dispose() {
     disposeBanner();
+    _routeObserver?.unsubscribe(this);
     super.dispose();
   }
 
@@ -172,67 +182,48 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> {
     _SingleBanner().dispose(callerHashCode: hashCode);
     _timer?.cancel();
   }
-}
 
-// Navigatorを使用する場合はこちらを使用してください。
-class AdMobBannerWidgetWithRoute extends StatefulWidget {
-  const AdMobBannerWidgetWithRoute();
-  @override
-  _AdMobBannerWidgetWithRouteState createState() =>
-      _AdMobBannerWidgetWithRouteState();
-}
-
-class _AdMobBannerWidgetWithRouteState extends State<AdMobBannerWidgetWithRoute>
-    with RouteAware {
-  final _AdMobBannerWidgetState _admobBannerWidgetState =
-      _AdMobBannerWidgetState();
-  AdMobBannerWidget _admobBannerWidget;
+// }
+//
+// // Navigatorを使用する場合はこちらを使用してください。
+// class AdMobBannerWidgetWithRoute extends StatefulWidget {
+//   const AdMobBannerWidgetWithRoute();
+//   @override
+//   _AdMobBannerWidgetWithRouteState createState() =>
+//       _AdMobBannerWidgetWithRouteState();
+// }
+//
+// class _AdMobBannerWidgetWithRouteState extends State<AdMobBannerWidgetWithRoute>
+//     with RouteAware {
+//   final _AdMobBannerWidgetState _admobBannerWidgetState =
+//       _AdMobBannerWidgetState();
+//   AdMobBannerWidget _admobBannerWidget;
   RouteObserver<dynamic> _routeObserver;
 
   @override
   void initState() {
     super.initState();
-    _admobBannerWidget =
-        AdMobBannerWidget(admobBannerWidgetState: _admobBannerWidgetState);
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // Observerが一つじゃない場合、firstでいいのかどうか判断・変更する必要アリ
-    _routeObserver = Navigator.of(context).widget.observers.first;
-    _routeObserver.subscribe(this, ModalRoute.of(context));
-  }
-
-  @override
-  void dispose() {
-    assert(_routeObserver != null);
-    _routeObserver.unsubscribe(this);
-    super.dispose();
+    // _admobBannerWidget =
+    //     AdMobBannerWidget(admobBannerWidgetState: _admobBannerWidgetState);
   }
 
   @override
   void didPushNext() {
     // AdmobBannerWidgetState経由で呼ばないと、
     // callerHashCodeに入るのがAdmobBannerWidgetWithRouteStateのものになり不整合
-    _admobBannerWidgetState.disposeBanner();
-    _admobBannerWidgetState.isTop = false;
+    disposeBanner();
+    isTop = false;
   }
 
   @override
   void didPopNext() {
-    _admobBannerWidgetState.isTop = true;
-    _admobBannerWidgetState._determineBannerSize();
-    _admobBannerWidgetState._loadAndShowBanner();
+    isTop = true;
+    _determineBannerSize();
+    _loadAndShowBanner();
   }
 
   @override
   void didPop() {
-    _admobBannerWidgetState.disposeBanner();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return _admobBannerWidget;
+    disposeBanner();
   }
 }
