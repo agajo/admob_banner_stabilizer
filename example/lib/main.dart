@@ -24,15 +24,40 @@ class MyApp extends StatelessWidget {
             // test GADApplicationIdentifier. see https://developers.google.com/admob/ios/quick-start?hl=en
             : 'ca-app-pub-3940256099942544~1458002511');
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(),
-        body: Column(
-          children: [
-            SizedBox(height: 100),
-            AdMobBannerWidget(),
-            Text("Text"),
-          ],
-        ),
+      home: MyBody(),
+    );
+  }
+}
+
+class MyBody extends StatefulWidget {
+  const MyBody({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  _MyBodyState createState() => _MyBodyState();
+}
+
+class _MyBodyState extends State<MyBody> {
+  bool isUpperPosition = true;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: Column(
+        children: [
+          SizedBox(height: isUpperPosition ? 100 : 300),
+          Text("↓↓↓↓↓↓↓↓↓↓↓↓↓ AD HERE ↓↓↓↓↓↓↓↓↓↓↓↓↓"),
+          AdMobBannerWidget(),
+          Text("↑↑↑↑↑↑↑↑↑↑↑↑↑ AD HERE ↑↑↑↑↑↑↑↑↑↑↑↑↑"),
+          RaisedButton(
+              child: Text('Change Ad Position'),
+              onPressed: () {
+                setState(() {
+                  isUpperPosition = !isUpperPosition;
+                });
+              })
+        ],
       ),
     );
   }

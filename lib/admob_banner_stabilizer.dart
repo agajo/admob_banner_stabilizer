@@ -59,16 +59,15 @@ class _SingleBanner {
 
 // Navigatorを使わない場合はこちらを使ってください
 class AdMobBannerWidget extends StatefulWidget {
-  // TODO: 多分この必要はないと思う
-  // Stateを外から挿入できるようにしておきます。挿入されなければ、普通にここで新しく作る。
-  // Route使うバージョンの方で、外からこのStateにアクセスできるようにするため。
-  const AdMobBannerWidget({_AdMobBannerWidgetState admobBannerWidgetState})
-      : _admobBannerWidgetState = admobBannerWidgetState;
-  final _AdMobBannerWidgetState _admobBannerWidgetState;
+  // UniqueKeyをもたせることで強制的にリビルドさせて、Widgetの状態の変化に広告を追従させます。
+  // keyを持たせてリビルドを防いだ場合、広告がWidgetに追従しないことがあるので注意してください。
+  AdMobBannerWidget({Key key}) : super(key: key ?? UniqueKey());
+  // final _AdMobBannerWidgetState _admobBannerWidgetState;
 
   @override
   _AdMobBannerWidgetState createState() =>
-      _admobBannerWidgetState ?? _AdMobBannerWidgetState();
+      //_admobBannerWidgetState ?? _AdMobBannerWidgetState();
+      _AdMobBannerWidgetState();
 }
 
 class _AdMobBannerWidgetState extends State<AdMobBannerWidget> with RouteAware {
