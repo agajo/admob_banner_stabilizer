@@ -59,8 +59,10 @@ class _SingleBanner {
 class AdMobBannerWidget extends StatefulWidget {
   // UniqueKeyをもたせることで強制的にリビルドさせて、Widgetの状態の変化に広告を追従させます。
   // keyを持たせてリビルドを防いだ場合、広告がWidgetに追従しないことがあるので注意してください。
-  AdMobBannerWidget({Key key}) : super(key: key ?? UniqueKey());
-  // final _AdMobBannerWidgetState _admobBannerWidgetState;
+  AdMobBannerWidget({@required this.adUnitId, Key key})
+      : super(key: key ?? UniqueKey());
+
+  final String adUnitId;
 
   @override
   _AdMobBannerWidgetState createState() =>
@@ -84,9 +86,7 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> with RouteAware {
         _SingleBanner().show(
           isMounted: mounted,
           anchorOffset: _anchorOffset(),
-          // TODO: 各自の広告IDに変更する必要があります。
-          // TODO: Widget使用時に与えられるように。当然。
-          adUnitId: BannerAd.testAdUnitId,
+          adUnitId: widget.adUnitId,
           callerHashCode: hashCode,
           size: _adSize,
         );

@@ -46,9 +46,9 @@ class _MyBodyState extends State<MyBody> {
       appBar: AppBar(),
       body: Column(
         children: [
-          SizedBox(height: isUpperPosition ? 100 : 300),
+          SizedBox(height: isUpperPosition ? 50 : 150),
           Text("↓↓↓↓↓↓↓↓↓↓↓↓↓ AD HERE ↓↓↓↓↓↓↓↓↓↓↓↓↓"),
-          AdMobBannerWidget(),
+          AdMobBannerWidget(adUnitId: BannerAd.testAdUnitId),
           Text("↑↑↑↑↑↑↑↑↑↑↑↑↑ AD HERE ↑↑↑↑↑↑↑↑↑↑↑↑↑"),
           RaisedButton(
               child: Text('Change Ad Position'),
