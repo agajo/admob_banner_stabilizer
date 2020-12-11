@@ -1,8 +1,6 @@
 /// A package to use banner ads in firebase_admob package easily.
 library admob_banner_stabilizer;
 
-import 'dart:async';
-
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 
@@ -71,7 +69,6 @@ class AdMobBannerWidget extends StatefulWidget {
 }
 
 class _AdMobBannerWidgetState extends State<AdMobBannerWidget> with RouteAware {
-  Timer _timer;
   double _bannerHeight;
   AdSize _adSize;
   // Navigatorスタックの最上位にいるのかどうかを示すフラグ
@@ -80,11 +77,7 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> with RouteAware {
   void _loadAndShowBanner() {
     assert(_bannerHeight != null);
     assert(_adSize != null);
-    _timer?.cancel();
-    // Widgetのレンダリングが完了してなければ位置がわからないので、広告を表示しません。
-    // レンダリングが完了するまでタイマーで繰り返します。
-    // TODO: addPostFrameCallbackでイケルと思う！！
-    _timer = Timer.periodic(Duration(seconds: 1), (Timer _thisTimer) async {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final RenderBox _renderBox = context.findRenderObject();
       final bool _isRendered = _renderBox.hasSize;
       if (_isRendered) {
@@ -97,7 +90,6 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> with RouteAware {
           callerHashCode: hashCode,
           size: _adSize,
         );
-        _thisTimer.cancel();
       }
     });
   }
@@ -179,7 +171,6 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> with RouteAware {
 
   void disposeBanner() {
     _SingleBanner().dispose(callerHashCode: hashCode);
-    _timer?.cancel();
   }
 
 // }
