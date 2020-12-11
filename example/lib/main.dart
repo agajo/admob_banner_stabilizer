@@ -48,7 +48,10 @@ class _MyBodyState extends State<MyBody> {
         children: [
           SizedBox(height: isUpperPosition ? 50 : 150),
           Text("↓↓↓↓↓↓↓↓↓↓↓↓↓ AD HERE ↓↓↓↓↓↓↓↓↓↓↓↓↓"),
-          AdMobBannerWidget(adUnitId: BannerAd.testAdUnitId),
+          AdMobBannerWidget(
+            adUnitId: BannerAd.testAdUnitId,
+            backgroundColor: Colors.yellow,
+          ),
           Text("↑↑↑↑↑↑↑↑↑↑↑↑↑ AD HERE ↑↑↑↑↑↑↑↑↑↑↑↑↑"),
           RaisedButton(
               child: Text('Change Ad Position'),

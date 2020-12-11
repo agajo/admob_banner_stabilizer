@@ -59,10 +59,11 @@ class _SingleBanner {
 class AdMobBannerWidget extends StatefulWidget {
   // UniqueKeyをもたせることで強制的にリビルドさせて、Widgetの状態の変化に広告を追従させます。
   // keyを持たせてリビルドを防いだ場合、広告がWidgetに追従しないことがあるので注意してください。
-  AdMobBannerWidget({@required this.adUnitId, Key key})
+  AdMobBannerWidget({@required this.adUnitId, this.backgroundColor, Key key})
       : super(key: key ?? UniqueKey());
 
   final String adUnitId;
+  final Color backgroundColor;
 
   @override
   _AdMobBannerWidgetState createState() =>
@@ -140,9 +141,7 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> with RouteAware {
   @override
   Widget build(BuildContext context) {
     // 広告のスペースを確保するためのContainer。
-    // TODO: 背景色を変えるなりSizedBoxにするなり、アプリに合わせて変更してください。
-    // TODO: 背景色を外から渡せるように。
-    return Container(height: _bannerHeight, color: Colors.yellow);
+    return Container(height: _bannerHeight, color: widget.backgroundColor);
   }
 
   @override
