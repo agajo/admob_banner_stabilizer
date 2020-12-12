@@ -74,9 +74,9 @@ class AdMobBannerWidget extends StatefulWidget {
 class _AdMobBannerWidgetState extends State<AdMobBannerWidget> with RouteAware {
   double _bannerHeight;
   AdSize _adSize;
-  // Navigatorスタックの最上位にいるのかどうかを示すフラグ
-  bool isTop = true;
+  bool _doShowAd = false;
 
+  // 広告のロードと表示を実行します。実行してよいかの判断はここではしません。
   void _loadAndShowBanner() {
     assert(_bannerHeight != null);
     assert(_adSize != null);
@@ -95,7 +95,17 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> with RouteAware {
     });
   }
 
-  // ノッチとかを除いた範囲(SafeArea)の縦幅の1/8以内で最大の広告を表示します。
+  void _refreshState() {
+    _disposeBanner();
+    _determineBannerSize();
+    if (ModalRoute.of(context) == null || ModalRoute.of(context).isCurrent) {
+      _doShowAd = true;
+    } else {
+      _doShowAd = false;
+    }
+  }
+
+  // ノッチとかを除いた範囲(SafeArea)の縦幅の1/8以内で最大の広告を選びます。
   // 広告の縦幅を明確にしたいのでSmartBannerは使いません。
   void _determineBannerSize() {
     final double _viewPaddingTop =
@@ -140,7 +150,14 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> with RouteAware {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: refreshっていうメソッドを作り、そいつが状況取得・広告サイズや出すかどうかの判断・実際に出すまですべてやる。…?
+    // エレメント再生成のリビルドとの二重になっちゃうな。一本化してシンプルにしたい。とにかく理解をシンプルにしたい。
+    // 状況取得・サイズ・出すかどうかの判断 まではrefreshState() でやる。
+    // 実際に出すのをここでやる。
     // 広告のスペースを確保するためのContainer。
+    if (_doShowAd) {
+      _loadAndShowBanner();
+    }
     return Container(height: _bannerHeight, color: widget.backgroundColor);
   }
 
@@ -149,26 +166,27 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> with RouteAware {
     super.didChangeDependencies();
     // MediaQueryの変化を受けて呼ばれる。pushやpop、本体の回転でも呼ばれる。
     // 変更を検知したらまず即座に広告を消す。
-    disposeBanner();
+    // _disposeBanner();
     // Observerが一つじゃない場合、firstでいいのかどうか判断・変更する必要アリ
     if (Navigator.of(context).widget.observers.isNotEmpty) {
       _routeObserver = Navigator.of(context).widget.observers.first;
       _routeObserver.subscribe(this, ModalRoute.of(context));
     }
-    if (isTop) {
-      _determineBannerSize();
-      _loadAndShowBanner();
-    }
+    _refreshState();
+    // if (isTop) {
+    // _determineBannerSize();
+    // _loadAndShowBanner();
+    // }
   }
 
   @override
   void dispose() {
-    disposeBanner();
+    _disposeBanner();
     _routeObserver?.unsubscribe(this);
     super.dispose();
   }
 
-  void disposeBanner() {
+  void _disposeBanner() {
     _SingleBanner().dispose(callerHashCode: hashCode);
   }
 
@@ -200,19 +218,28 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> with RouteAware {
   void didPushNext() {
     // AdmobBannerWidgetState経由で呼ばないと、
     // callerHashCodeに入るのがAdmobBannerWidgetWithRouteStateのものになり不整合
-    disposeBanner();
-    isTop = false;
+    // disposeBanner();
+    // isTop = false;
+    setState(() {
+      _refreshState();
+    });
   }
 
   @override
   void didPopNext() {
-    isTop = true;
-    _determineBannerSize();
-    _loadAndShowBanner();
+    // isTop = true;
+    // _determineBannerSize();
+    // _loadAndShowBanner();
+    setState(() {
+      _refreshState();
+    });
   }
 
   @override
   void didPop() {
-    disposeBanner();
+    // disposeBanner();
+    setState(() {
+      _refreshState();
+    });
   }
 }
