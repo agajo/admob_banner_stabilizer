@@ -1,6 +1,8 @@
 /// A package to use banner ads in firebase_admob package easily.
 library admob_banner_stabilizer;
 
+import 'dart:async';
+
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 
@@ -75,23 +77,27 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> with RouteAware {
   double _bannerHeight;
   AdSize _adSize;
   bool _doShowAd = false;
+  Timer _timer;
 
   // 広告のロードと表示を実行します。実行してよいかの判断はここではしません。
   void _loadAndShowBanner() {
     assert(_bannerHeight != null);
     assert(_adSize != null);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final RenderBox _renderBox = context.findRenderObject();
-      final bool _isRendered = _renderBox.hasSize;
-      if (_isRendered) {
-        _SingleBanner().show(
-          isMounted: mounted,
-          anchorOffset: _anchorOffset(),
-          adUnitId: widget.adUnitId,
-          callerHashCode: hashCode,
-          size: _adSize,
-        );
-      }
+      // 画面遷移アニメーションがある場合に備え、物理的に1秒待ちます。
+      _timer = Timer(Duration(seconds: 1), () {
+        final RenderBox _renderBox = context.findRenderObject();
+        final bool _isRendered = _renderBox.hasSize;
+        if (_isRendered) {
+          _SingleBanner().show(
+            isMounted: mounted,
+            anchorOffset: _anchorOffset(),
+            adUnitId: widget.adUnitId,
+            callerHashCode: hashCode,
+            size: _adSize,
+          );
+        }
+      });
     });
   }
 
@@ -187,6 +193,7 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> with RouteAware {
   }
 
   void _disposeBanner() {
+    _timer?.cancel();
     _SingleBanner().dispose(callerHashCode: hashCode);
   }
 
