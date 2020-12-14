@@ -87,7 +87,7 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> with RouteAware {
       // 画面遷移アニメーションがある場合に備え、物理的に1秒待ちます。
       _timer = Timer(Duration(seconds: 1), () {
         final RenderBox _renderBox = context.findRenderObject();
-        final bool _isRendered = _renderBox.hasSize;
+        final _isRendered = _renderBox.hasSize;
         if (_isRendered) {
           _SingleBanner().show(
             isMounted: mounted,
@@ -114,14 +114,13 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> with RouteAware {
   // ノッチとかを除いた範囲(SafeArea)の縦幅の1/8以内で最大の広告を選びます。
   // 広告の縦幅を明確にしたいのでSmartBannerは使いません。
   void _determineBannerSize() {
-    final double _viewPaddingTop =
-        WidgetsBinding.instance.window.viewPadding.top /
-            MediaQuery.of(context).devicePixelRatio;
-    final double _viewPaddingBottom =
+    final _viewPaddingTop = WidgetsBinding.instance.window.viewPadding.top /
+        MediaQuery.of(context).devicePixelRatio;
+    final _viewPaddingBottom =
         WidgetsBinding.instance.window.viewPadding.bottom /
             MediaQuery.of(context).devicePixelRatio;
-    final double _screenWidth = MediaQuery.of(context).size.width;
-    final double _availableScreenHeight = MediaQuery.of(context).size.height -
+    final _screenWidth = MediaQuery.of(context).size.width;
+    final _availableScreenHeight = MediaQuery.of(context).size.height -
         _viewPaddingTop -
         _viewPaddingBottom;
     if (_screenWidth >= 728 && _availableScreenHeight >= 720) {
@@ -144,13 +143,13 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> with RouteAware {
   double _anchorOffset() {
     final RenderBox _renderBox = context.findRenderObject();
     assert(_renderBox.hasSize);
-    final double _y = _renderBox.localToGlobal(Offset.zero).dy;
-    final double _h = _renderBox.size.height;
+    final _y = _renderBox.localToGlobal(Offset.zero).dy;
+    final _h = _renderBox.size.height;
     // viewPaddingだけ何故かMediaQueryで取得すると0だったので、windowから直接取得
     // 物理ピクセルが返るのでdevicePixelRatioで割って論理ピクセルに直す
-    final double _vpb = WidgetsBinding.instance.window.viewPadding.bottom /
+    final _vpb = WidgetsBinding.instance.window.viewPadding.bottom /
         MediaQuery.of(context).devicePixelRatio;
-    final double _screenHeight = MediaQuery.of(context).size.height;
+    final _screenHeight = MediaQuery.of(context).size.height;
     return _screenHeight - _y - _h - _vpb;
   }
 
