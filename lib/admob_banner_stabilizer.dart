@@ -6,16 +6,17 @@ import 'dart:async';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 
+// BannerAdのwrapper。
 // BannerAdを2回以上disposeしないためのクラス。
 // Singletonにすることで、間接的にBannerAd自体のインスタンスも一度に一つしか存在しないことを保証する。
 // BannerAdをdisposeしたら、必ず、次をセットするかnullにする。
-class _SingleBanner {
-  factory _SingleBanner() {
-    _instance ??= _SingleBanner._internal();
+class SingleBanner {
+  factory SingleBanner() {
+    _instance ??= SingleBanner._internal();
     return _instance;
   }
-  _SingleBanner._internal();
-  static _SingleBanner _instance;
+  SingleBanner._internal();
+  static SingleBanner _instance;
 
   BannerAd _bannerAd;
   int _ownerHashCode; // 現在の所有者インスタンスは誰かを表す
@@ -28,6 +29,8 @@ class _SingleBanner {
     @required bool isMounted,
   }) {
     _bannerAd?.dispose(); // disposeしたら、必ず、次をセットするかnullにする。
+    // TODO: テスト時はここでmockコンストラクタを使うようにしなきゃいけない。
+    // TODO: Repositoryパターンで書き換えろ！！
     _bannerAd = BannerAd(
       adUnitId: adUnitId,
       size: size,
@@ -89,7 +92,7 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> with RouteAware {
         final RenderBox _renderBox = context.findRenderObject();
         final _isRendered = _renderBox.hasSize;
         if (_isRendered) {
-          _SingleBanner().show(
+          SingleBanner().show(
             isMounted: mounted,
             anchorOffset: _anchorOffset(),
             adUnitId: widget.adUnitId,
@@ -201,7 +204,7 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> with RouteAware {
 
   void _disposeBanner() {
     _timer?.cancel();
-    _SingleBanner().dispose(callerHashCode: hashCode);
+    SingleBanner().dispose(callerHashCode: hashCode);
   }
 
 // }
