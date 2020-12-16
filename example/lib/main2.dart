@@ -60,7 +60,9 @@ class _MyBodyState extends State<MyBody> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text('MyBody'),
+      ),
       body: Column(
         children: [
           SizedBox(height: isUpperPosition ? 50 : 150),
@@ -97,7 +99,9 @@ class MyBody2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text('MyBody2'),
+      ),
       body: Column(
         children: [
           SizedBox(height: 100),

@@ -172,6 +172,14 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> with RouteAware {
     // MediaQueryの変化を受けて呼ばれる。pushやpop、本体の回転でも呼ばれる。
     // 変更を検知したらまず即座に広告を消す。
     // _disposeBanner();
+    final _route = ModalRoute.of(context);
+    if (_route != null &&
+        // If _route is MaterialApp's default route, it doesn't throw.
+        !(_route.settings.name == '/' && _route.settings.arguments == null) &&
+        Navigator.of(context).widget.observers.isEmpty) {
+      throw StateError(
+          'Give an RouteObserver when using AdMobBannerWidget with Navigator.');
+    }
     // Observerが一つじゃない場合、firstでいいのかどうか判断・変更する必要アリ
     if (Navigator.of(context).widget.observers.isNotEmpty) {
       _routeObserver = Navigator.of(context).widget.observers.first;
