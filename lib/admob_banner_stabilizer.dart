@@ -119,7 +119,6 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> with RouteAware {
 
   @override
   void didChangeDependencies() {
-    super.didChangeDependencies();
     // MediaQueryの変化を受けて呼ばれる。pushやpop、本体の回転でも呼ばれる。
     // 変更を検知したらまず即座に広告を消す。
     // _disposeBanner();
@@ -130,23 +129,27 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> with RouteAware {
         Navigator.of(context).widget.observers.isEmpty) {
       throw StateError(
           'Give an RouteObserver when using AdMobBannerWidget with Navigator.');
+      // assert(false,
+      //     'Give an RouteObserver when using AdMobBannerWidget with Navigator.');
     }
     // Observerが一つじゃない場合、firstでいいのかどうか判断・変更する必要アリ
-    if (Navigator.of(context).widget.observers.isNotEmpty) {
+    if (_route != null && Navigator.of(context).widget.observers.isNotEmpty) {
       _routeObserver = Navigator.of(context).widget.observers.first;
-      _routeObserver.subscribe(this, ModalRoute.of(context));
+      _routeObserver.subscribe(this, _route);
     }
     _refreshState();
     // if (isTop) {
     // _determineBannerSize();
     // _loadAndShowBanner();
     // }
+    super.didChangeDependencies();
   }
 
   @override
   void dispose() {
     _disposeBanner();
     _routeObserver?.unsubscribe(this);
+    _timer.cancel();
     super.dispose();
   }
 
