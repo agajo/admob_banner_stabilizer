@@ -78,7 +78,7 @@ class _MyBodyState extends State<MyBody> {
                 });
               }),
           RaisedButton(
-            child: Text('push MyBody2'),
+            child: Text('to MyBody2'),
             onPressed: () {
               Provider.of<PagesNotifier>(context, listen: false).pushMyBody2();
             },
@@ -109,6 +109,7 @@ class MyBody2 extends StatelessWidget {
             backgroundColor: Colors.yellow,
           ),
           Text("↑↑↑↑↑↑↑↑↑↑↑↑↑ AD HERE ↑↑↑↑↑↑↑↑↑↑↑↑↑"),
+          Text('tap back button.'),
         ],
       ),
     );
