@@ -1,8 +1,8 @@
 name: admob_banner_stabilizer
 description: A package to use banner ads in firebase_admob package easily.
 version: 0.0.1
-author:
-homepage:
+homepage: https://twitter.com/agajo_tech
+repository: https://github.com/agajo/admob_banner_stabilizer
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
