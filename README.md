@@ -2,29 +2,34 @@
 
 A package to use banner ads in firebase_admob package easily.
 
-## Features
-
 ![admob_widget_record](https://user-images.githubusercontent.com/12369062/102615893-058eeb00-417a-11eb-8f39-121d3ba865e0.gif)
+
+## Features
 
 ### Banner ads appear in the same position as the Widget
 
 The build method of AdmobBannerWidget simply returns a Container, but an ad with the same height is placed exactly on the Container.
 
+
 ### Widget height and ad height match, so it's easy to layout
 
 This ensures that the ad and the button do not overlap.
+
 
 ### When the widget is removed from the widget tree, the ad disappears
 
 The ad itself can be treated as if it were in the widget. You don't have to write an additional process to remove the ad.
 
+
 ### Navigator is supported
 
 When another page is pushed from above, the ad disappears.
 
+
 ### Supports changing the orientation of the device
 
 If you change the orientation of the device, the ad will be erased first, and then reappear in the new position.
+
 
 ### No crashes after consecutive screen transitions
 
@@ -40,6 +45,7 @@ Please read the linked page carefully and complete the necessary preparations.
 [firebase_admob plugin](https://pub.dev/packages/firebase_admob)
 
 If you just want to run examples, this preparation is not necessary.
+
 
 ## Usage
 
@@ -84,14 +90,14 @@ class MyApp extends StatelessWidget {
 The ad size will be the largest one that can be displayed within 1/8th of the height of the SafeArea.
 AdMobBanner's SmartBanner standard is used as a reference.
 
+
 ### Ads cannot be moved as the widget is moved
 
 They just appear and disappear.
 
 You can't use it as a part of the list to scroll.
 
+
 ### You can't leave an ad running behind the scenes
 
 It only calculates the position of the widget and puts the ad in front of it. You can't hide ads.
-
-Translated with www.DeepL.com/Translator (free version)
