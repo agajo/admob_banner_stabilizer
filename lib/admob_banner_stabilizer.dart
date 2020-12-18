@@ -175,12 +175,12 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> with RouteAware {
 //   AdMobBannerWidget _admobBannerWidget;
   RouteObserver<dynamic> _routeObserver;
 
-  @override
-  void initState() {
-    super.initState();
-    // _admobBannerWidget =
-    //     AdMobBannerWidget(admobBannerWidgetState: _admobBannerWidgetState);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   // _admobBannerWidget =
+  //   //     AdMobBannerWidget(admobBannerWidgetState: _admobBannerWidgetState);
+  // }
 
   @override
   void didPushNext() {
