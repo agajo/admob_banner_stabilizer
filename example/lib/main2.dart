@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:admob_banner_stabilizer/admob_banner_stabilizer.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +9,6 @@ import 'package:provider/provider.dart';
 // This example is with Navigator.
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   await FirebaseAdMob.instance.initialize(
       appId: Platform.isAndroid
           // AdMob App ID for Firebase Demo Project (Flood-It!)
