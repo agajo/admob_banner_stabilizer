@@ -1,4 +1,4 @@
-import 'package:admob_banner_stabilizer/single_banner.dart';
+import 'package:admob_banner_stabilizer/admob_banner_stabilizer.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
