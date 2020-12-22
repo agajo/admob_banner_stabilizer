@@ -40,11 +40,12 @@ You can dispose this widget continuously.
 
 This package depends on the firebase_admob plugin.
 
-Please read the linked page carefully and complete the necessary preparations.
+Please read the linked pages carefully and complete the necessary preparations.
 
+[Add Firebase to your Flutter app](https://firebase.google.com/docs/flutter/setup?hl=en)
 [firebase_admob plugin](https://pub.dev/packages/firebase_admob)
 
-If you just want to run examples, this preparation is not necessary.
+If you just want to run examples, these preparations is not necessary.
 
 
 ## Usage
