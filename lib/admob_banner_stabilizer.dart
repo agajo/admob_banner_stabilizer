@@ -11,11 +11,9 @@ class AdMobBannerWidget extends StatefulWidget {
   // By forcing a rebuild with a UniqueKey, the ad will follow the changes in the widget state.
   // Note that if you prevent the rebuild by giving a different key, the ad may not follow the widget.
   AdMobBannerWidget({
-    /// Your ID of banner ad unit from AdMob.
     @required this.adUnitId,
-
-    /// Background color of banner area. Default is transparent.
     this.backgroundColor,
+    this.maxHeight,
     Key key,
   }) : super(key: key ?? UniqueKey());
 
@@ -24,6 +22,12 @@ class AdMobBannerWidget extends StatefulWidget {
 
   /// Background color of banner area. Default is transparent.
   final Color backgroundColor;
+
+  /// Specifies the maximum value for the height of the banner.
+  /// If not specified, it will be 1/8 of the height of the SafeArea.
+  /// Note that this does not mean that banners with the specified height will be displayed.
+  /// Values less than 50 will be treated as 50.
+  final double maxHeight;
 
   @override
   _AdMobBannerWidgetState createState() =>
@@ -77,7 +81,7 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> with RouteAware {
     }
   }
 
-  /// Chooses the largest ad within 1/8th of the height of the SafeArea, which is the area excluding notches and such.
+  /// Chooses the largest ad within maxHeight or 1/8th of the height of the SafeArea, which is the area excluding notches and such.
   /// To clarify the height of the ad, SmartBanner is not used.
   void _determineBannerSize() {
     final _viewPaddingTop = WidgetsBinding.instance.window.viewPadding.top /
@@ -86,16 +90,22 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> with RouteAware {
         WidgetsBinding.instance.window.viewPadding.bottom /
             MediaQuery.of(context).devicePixelRatio;
     final _screenWidth = MediaQuery.of(context).size.width;
-    final _availableScreenHeight = MediaQuery.of(context).size.height -
-        _viewPaddingTop -
-        _viewPaddingBottom;
-    if (_screenWidth >= 728 && _availableScreenHeight >= 720) {
+    if (widget.maxHeight != null && widget.maxHeight < 50) {
+      throw StateError(
+          'maxHeight of AdMobBannerWidget must be greater than 50 because there is no AdSize with a height less than 50.');
+    }
+    final _availableBannerHeight = widget.maxHeight ??
+        (MediaQuery.of(context).size.height -
+                _viewPaddingTop -
+                _viewPaddingBottom) /
+            8;
+    if (_screenWidth >= 728 && _availableBannerHeight >= 90) {
       _adSize = AdSize.leaderboard;
       _bannerHeight = 90;
-    } else if (_screenWidth >= 468 && _availableScreenHeight >= 480) {
+    } else if (_screenWidth >= 468 && _availableBannerHeight >= 60) {
       _adSize = AdSize.fullBanner;
       _bannerHeight = 60;
-    } else if (_screenWidth >= 320 && _availableScreenHeight >= 800) {
+    } else if (_screenWidth >= 320 && _availableBannerHeight >= 100) {
       _adSize = AdSize.largeBanner;
       _bannerHeight = 100;
     } else {

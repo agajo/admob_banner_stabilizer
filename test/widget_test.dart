@@ -36,4 +36,6 @@ void main() {
     // await tester.pumpAndSettle();
     expect(tester.takeException(), isInstanceOf<StateError>());
   }, skip: true);
+
+  // TODO: test with maxHeight
 }
