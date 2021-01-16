@@ -37,5 +37,14 @@ void main() {
     expect(tester.takeException(), isInstanceOf<StateError>());
   }, skip: true);
 
-  // TODO: test with maxHeight
+  // This test case does not work because there is no easy way to get its size from the Widget.
+  // Please tell me how to make it work.
+  testWidgets('specify maxHeight', (WidgetTester tester) async {
+    final adMobBannerWidget = AdMobBannerWidget(
+      adUnitId: null,
+      maxHeight: 80,
+    );
+    await tester.pumpWidget(MaterialApp(home: adMobBannerWidget));
+    expect(find.byWidget(adMobBannerWidget), findsOneWidget);
+  }, skip: true);
 }

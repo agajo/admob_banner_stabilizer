@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
             SizedBox(height: 10),
             Row(
               children: [
-                Text('Choose maxBannerHeight!'),
+                Text('Choose max banner height'),
                 Expanded(
                   child: SizedBox(
                     height: 40,
