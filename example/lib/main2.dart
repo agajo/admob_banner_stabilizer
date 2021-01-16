@@ -109,7 +109,7 @@ class MyBody2 extends StatelessWidget {
             backgroundColor: Colors.yellow,
           ),
           Text("↑↑↑↑↑↑↑↑↑↑↑↑↑ AD HERE ↑↑↑↑↑↑↑↑↑↑↑↑↑"),
-          Text('tap back button.'),
+          Text('tap the BACK button.'),
         ],
       ),
     );
