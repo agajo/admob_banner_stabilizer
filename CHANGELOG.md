@@ -1,3 +1,7 @@
+## [0.3.0] - 2021-01-18
+
+* Two new static methods, getAdSize and getBannerHeight, have been added.
+
 ## [0.2.0] - 2021-01-16
 
 * It is now possible to specify the maxHeight of the AdMobBannerWidget.
