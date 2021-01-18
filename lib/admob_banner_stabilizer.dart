@@ -29,6 +29,53 @@ class AdMobBannerWidget extends StatefulWidget {
   /// Values less than 50 will be treated as 50.
   final double maxHeight;
 
+  /// Returns the AdSize that will be selected when the banner ad is displayed in the given context.
+  /// In addition, you can also give the maxHeight.
+  static AdSize getAdSize({@required BuildContext context, double maxHeight}) {
+    final _viewPaddingTop = WidgetsBinding.instance.window.viewPadding.top /
+        MediaQuery.of(context).devicePixelRatio;
+    final _viewPaddingBottom =
+        WidgetsBinding.instance.window.viewPadding.bottom /
+            MediaQuery.of(context).devicePixelRatio;
+    final _screenWidth = MediaQuery.of(context).size.width;
+    if (maxHeight != null && maxHeight < 50) {
+      throw StateError(
+          'maxHeight of AdMobBannerWidget must be greater than 50 because there is no AdSize with a height less than 50.');
+    }
+    final _availableBannerHeight = maxHeight ??
+        (MediaQuery.of(context).size.height -
+                _viewPaddingTop -
+                _viewPaddingBottom) /
+            8;
+    if (_screenWidth >= 728 && _availableBannerHeight >= 90) {
+      return AdSize.leaderboard;
+    } else if (_screenWidth >= 468 && _availableBannerHeight >= 60) {
+      return AdSize.fullBanner;
+    } else if (_screenWidth >= 320 && _availableBannerHeight >= 100) {
+      return AdSize.largeBanner;
+    } else {
+      return AdSize.banner;
+    }
+  }
+
+  /// Returns the AdSize height that will be selected when the banner ad is displayed in the given context.
+  /// In addition, you can also give the maxHeight.
+  static double getBannerHeight(
+      {@required BuildContext context, double maxHeight}) {
+    final _adSize = getAdSize(context: context, maxHeight: maxHeight);
+    if (_adSize == AdSize.leaderboard) {
+      return 90;
+    } else if (_adSize == AdSize.fullBanner) {
+      return 60;
+    } else if (_adSize == AdSize.largeBanner) {
+      return 100;
+    } else if (_adSize == AdSize.banner) {
+      return 50;
+    } else {
+      throw StateError('_adSize is strange.');
+    }
+  }
+
   @override
   _AdMobBannerWidgetState createState() =>
       //_admobBannerWidgetState ?? _AdMobBannerWidgetState();
@@ -84,34 +131,10 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> with RouteAware {
   /// Chooses the largest ad within maxHeight or 1/8th of the height of the SafeArea, which is the area excluding notches and such.
   /// To clarify the height of the ad, SmartBanner is not used.
   void _determineBannerSize() {
-    final _viewPaddingTop = WidgetsBinding.instance.window.viewPadding.top /
-        MediaQuery.of(context).devicePixelRatio;
-    final _viewPaddingBottom =
-        WidgetsBinding.instance.window.viewPadding.bottom /
-            MediaQuery.of(context).devicePixelRatio;
-    final _screenWidth = MediaQuery.of(context).size.width;
-    if (widget.maxHeight != null && widget.maxHeight < 50) {
-      throw StateError(
-          'maxHeight of AdMobBannerWidget must be greater than 50 because there is no AdSize with a height less than 50.');
-    }
-    final _availableBannerHeight = widget.maxHeight ??
-        (MediaQuery.of(context).size.height -
-                _viewPaddingTop -
-                _viewPaddingBottom) /
-            8;
-    if (_screenWidth >= 728 && _availableBannerHeight >= 90) {
-      _adSize = AdSize.leaderboard;
-      _bannerHeight = 90;
-    } else if (_screenWidth >= 468 && _availableBannerHeight >= 60) {
-      _adSize = AdSize.fullBanner;
-      _bannerHeight = 60;
-    } else if (_screenWidth >= 320 && _availableBannerHeight >= 100) {
-      _adSize = AdSize.largeBanner;
-      _bannerHeight = 100;
-    } else {
-      _adSize = AdSize.banner;
-      _bannerHeight = 50;
-    }
+    _adSize = AdMobBannerWidget.getAdSize(
+        context: context, maxHeight: widget.maxHeight);
+    _bannerHeight = AdMobBannerWidget.getBannerHeight(
+        context: context, maxHeight: widget.maxHeight);
   }
 
   /// Calculates how many logical pixels above the bottom of the SafeArea this Widget is displayed.
