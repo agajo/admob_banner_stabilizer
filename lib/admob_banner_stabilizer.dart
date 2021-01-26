@@ -77,9 +77,7 @@ class AdMobBannerWidget extends StatefulWidget {
   }
 
   @override
-  _AdMobBannerWidgetState createState() =>
-      //_admobBannerWidgetState ?? _AdMobBannerWidgetState();
-      _AdMobBannerWidgetState();
+  _AdMobBannerWidgetState createState() => _AdMobBannerWidgetState();
 }
 
 class _AdMobBannerWidgetState extends State<AdMobBannerWidget> with RouteAware {
@@ -121,7 +119,9 @@ class _AdMobBannerWidgetState extends State<AdMobBannerWidget> with RouteAware {
   void _refreshState() {
     _disposeBanner();
     _determineBannerSize();
-    if (ModalRoute.of(context) == null || ModalRoute.of(context).isCurrent) {
+    ModalRoute _route = ModalRoute.of(context);
+    if (_route == null ||
+        (_route.isCurrent && _route.willHandlePopInternally == false)) {
       _doShowAd = true;
     } else {
       _doShowAd = false;

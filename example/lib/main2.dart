@@ -61,6 +61,12 @@ class _MyBodyState extends State<MyBody> {
       appBar: AppBar(
         title: Text('MyBody'),
       ),
+      drawer: Drawer(
+          child: ListView(children: [
+        DrawerHeader(
+          child: Text('Drawer'),
+        ),
+      ])),
       body: Column(
         children: [
           SizedBox(height: isUpperPosition ? 50 : 150),
@@ -78,11 +84,17 @@ class _MyBodyState extends State<MyBody> {
                 });
               }),
           RaisedButton(
-            child: Text('to MyBody2'),
+            child: Text('To MyBody2'),
             onPressed: () {
               Provider.of<PagesNotifier>(context, listen: false).pushMyBody2();
             },
-          )
+          ),
+          Builder(
+            builder: (context) => RaisedButton(
+              child: Text('Show the Drawer'),
+              onPressed: () => Scaffold.of(context).openDrawer(),
+            ),
+          ),
         ],
       ),
     );
@@ -109,6 +121,7 @@ class MyBody2 extends StatelessWidget {
             backgroundColor: Colors.yellow,
           ),
           Text("↑↑↑↑↑↑↑↑↑↑↑↑↑ AD HERE ↑↑↑↑↑↑↑↑↑↑↑↑↑"),
+          const SizedBox(height: 24),
           Text('tap the BACK button.'),
         ],
       ),
